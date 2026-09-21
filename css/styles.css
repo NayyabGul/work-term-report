@@ -255,6 +255,13 @@ h2 em {
 .split > div > p:last-child {
   margin-bottom: 0;
 }
+.split-tight {
+  align-items: center;
+  margin-bottom: 72px;
+}
+.split-tight > p {
+  margin: 0;
+}
 .draft-note {
   font-size: 15px;
   line-height: 1.7;
@@ -405,40 +412,59 @@ h2 em {
   font: 20px/1 var(--serif);
   white-space: nowrap;
 }
-.role-viewport {
+.role-carousel {
+  position: relative;
+}
+.role-arrow {
+  position: absolute;
+  top: calc(50% + 12px);
+  z-index: 2;
+  width: 48px;
+  height: 72px;
   display: grid;
-  min-height: 282px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  color: var(--fg);
+  font: 26px/1 var(--sans);
+  transform: translateY(-50%);
+  transition:
+    background-color 0.25s,
+    color 0.25s,
+    opacity 0.25s;
+}
+.role-prev {
+  left: -60px;
+}
+.role-next {
+  right: -60px;
+}
+.role-arrow:hover:not(:disabled),
+.role-arrow:focus-visible:not(:disabled) {
+  background: var(--paper);
+  color: var(--olive-deep);
+}
+.role-arrow:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+.role-viewport {
+  min-height: 320px;
   padding-top: 24px;
   overflow: hidden;
 }
-.role-viewport:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 8px;
-}
-.role-pair {
-  grid-area: 1 / 1;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.role-track {
+  display: flex;
   gap: 70px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(26px);
-  transition:
-    opacity 0.45s ease,
-    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-    visibility 0s linear 0.55s;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.role-pair.is-active {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  transition-delay: 0s;
+.role-item {
+  flex: 0 0 calc((100% - 70px) / 2);
+  min-width: 0;
 }
-.role-no-motion .role-pair {
-  transition: none;
-}
-.role-number,
-.column-number {
+.role-number {
   display: block;
   color: var(--accent);
   font: 22px/1 var(--serif);
@@ -449,8 +475,12 @@ h2 em {
   margin: 0 0 13px;
 }
 .role-item > p {
-  font-size: 16px;
-  line-height: 1.58;
+  font-size: 15.5px;
+  line-height: 1.52;
+}
+.project-name {
+  color: var(--fg);
+  font-weight: 600;
 }
 .role-meta {
   color: var(--fg-muted);
@@ -521,6 +551,23 @@ h2 em {
 }
 #conclusion .draft-note {
   margin-top: 28px;
+}
+.acknowledgements {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-top: 42px;
+  padding-top: 28px;
+  border-top: 1px solid var(--rule);
+}
+.acknowledgements h3 {
+  font: 32px/1.15 var(--serif);
+  margin: 0;
+}
+.acknowledgements p {
+  max-width: 560px;
+  margin: 0;
+  color: var(--fg-muted);
 }
 
 /* ---------- Footer ---------- */
@@ -610,27 +657,25 @@ footer button:focus-visible {
   .split,
   .employer-copy,
   .goals-intro,
-  .role-intro {
+  .role-intro,
+  .acknowledgements {
     grid-template-columns: 1fr;
     gap: 28px;
   }
-  .role-count {
-    display: none;
-  }
   .role-viewport {
-    display: block;
-    overflow: visible;
     padding-top: 34px;
   }
-  .role-pair,
-  .role-pair.is-active {
-    grid-area: auto;
-    opacity: 1;
-    visibility: visible;
-    transform: none;
+  .role-prev {
+    left: -22px;
   }
-  .role-pair + .role-pair {
-    margin-top: 52px;
+  .role-next {
+    right: -22px;
+  }
+  .role-track {
+    gap: 34px;
+  }
+  .role-item {
+    flex-basis: calc((100% - 34px) / 2);
   }
   .goals-columns {
     gap: 30px;
@@ -687,10 +732,24 @@ footer button:focus-visible {
   .lead {
     font-size: 18px;
   }
-  .role-pair,
   .goals-columns {
     grid-template-columns: 1fr;
     gap: 44px;
+  }
+  .role-item {
+    flex-basis: 100%;
+    padding-right: 28px;
+    padding-left: 28px;
+  }
+  .role-arrow {
+    width: 38px;
+    height: 64px;
+  }
+  .role-prev {
+    left: -8px;
+  }
+  .role-next {
+    right: -8px;
   }
   .role-item h3,
   .goals-column h3 {
@@ -764,5 +823,15 @@ footer button:focus-visible {
   .goals-column,
   .employer-copy {
     break-inside: avoid;
+  }
+  .role-track {
+    display: block;
+    transform: none !important;
+  }
+  .role-item + .role-item {
+    margin-top: 30px;
+  }
+  .role-arrow {
+    display: none;
   }
 }

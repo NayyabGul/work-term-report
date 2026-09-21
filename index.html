@@ -18,14 +18,14 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="css/styles.css?v=20260920-2" />
+    <link rel="stylesheet" href="css/styles.css?v=20260921-5" />
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
       defer
     ></script>
-    <script src="js/scripts.js?v=20260920-2" defer></script>
+    <script src="js/scripts.js?v=20260921-5" defer></script>
   </head>
   <body>
     <a class="skip" href="#introduction">Skip to report</a>
@@ -60,7 +60,7 @@
           <div class="navbar-nav">
             <button class="nav-link" type="button" data-section="introduction">Introduction</button>
             <button class="nav-link" type="button" data-section="employer">Employer</button>
-            <button class="nav-link" type="button" data-section="role">My role</button>
+            <button class="nav-link" type="button" data-section="role">My Role</button>
             <button class="nav-link" type="button" data-section="goals">Goals</button>
             <button class="nav-link" type="button" data-section="conclusion">Conclusion</button>
           </div>
@@ -187,70 +187,93 @@
             <span class="role-count" aria-live="polite">01–02 / 04</span>
           </div>
 
-          <div class="role-viewport" tabindex="0" aria-label="Four role work streams, shown two at a time">
-            <div class="role-pair is-active" data-role-page="0">
-              <article class="role-item">
-                <span class="role-number">01</span>
-                <h3>Automation &amp; data</h3>
-                <p>
-                  I transformed manual or inconsistent information into
-                  structured, reviewable data. I built repeatable scripts,
-                  cleaned spreadsheet records, checked for inconsistencies, and
-                  made space for human review when judgment was needed.
-                </p>
-                <p class="role-meta">
-                  <strong>Tools &amp; skills</strong> Python, Requests,
-                  BeautifulSoup, OpenPyXL, NumPy, data validation
-                </p>
-              </article>
+          <div class="role-carousel">
+            <button
+              class="role-arrow role-prev"
+              type="button"
+              aria-label="Show previous work stream"
+              disabled
+            >
+              ←
+            </button>
+            <div class="role-viewport" aria-label="Four role work streams">
+              <div class="role-track">
+                <article class="role-item">
+                  <span class="role-number">01</span>
+                  <h3>Automation &amp; data</h3>
+                  <p>
+                    For the <strong class="project-name">Academic Data Collection
+                    and Reporting</strong> project, I built Python-based workflows
+                    to gather, clean, structure, and validate information from
+                    multiple sources. I added clear review points for uncertain
+                    records, helping turn repetitive manual work into a more
+                    consistent process while keeping final decisions with staff.
+                  </p>
+                  <p class="role-meta">
+                    <strong>Tools &amp; skills</strong> Python, Requests,
+                    BeautifulSoup, OpenPyXL, NumPy, data validation
+                  </p>
+                </article>
 
-              <article class="role-item">
-                <span class="role-number">02</span>
-                <h3>Prompt engineering</h3>
-                <p>
-                  I designed and tested prompts for classification, summaries,
-                  and structured outputs. Comparing results and documenting
-                  limitations made AI-supported work more consistent,
-                  transparent, and easier for staff to verify.
-                </p>
-                <p class="role-meta">
-                  <strong>Tools &amp; skills</strong> Prompt design, output
-                  review, documentation, quality checks
-                </p>
-              </article>
+                <article class="role-item">
+                  <span class="role-number">02</span>
+                  <h3>Prompt engineering</h3>
+                  <p>
+                    Through the <strong class="project-name">Prompt Design and
+                    Copilot Agent Study</strong>, I created and compared prompts
+                    for classification, summaries, and structured outputs. I also
+                    studied and prototyped an AI agent in Microsoft Copilot Studio,
+                    evaluating response quality, consistency, limitations, and the
+                    review steps needed before staff could rely on its results.
+                  </p>
+                  <p class="role-meta">
+                    <strong>Tools &amp; skills</strong> Microsoft Copilot Studio,
+                    prompt design, agent testing, output review, documentation
+                  </p>
+                </article>
+
+                <article class="role-item">
+                  <span class="role-number">03</span>
+                  <h3>Microsoft 365 development</h3>
+                  <p>
+                    For the <strong class="project-name">Microsoft 365 Workflow
+                    Prototypes</strong>, I connected forms, lists, notifications,
+                    workbook logic, and staff-facing views into practical process
+                    concepts. I tested how information moved between tools and
+                    refined the flow to reduce repeated entry, clarify handoffs,
+                    and make progress easier for staff to track.
+                  </p>
+                  <p class="role-meta">
+                    <strong>Tools &amp; skills</strong> Forms, SharePoint, Power
+                    Automate, Teams, Power Apps, Excel
+                  </p>
+                </article>
+
+                <article class="role-item">
+                  <span class="role-number">04</span>
+                  <h3>Research &amp; evaluation</h3>
+                  <p>
+                    In the <strong class="project-name">AI and Assistive
+                    Technology Evaluation</strong> project, I researched tools
+                    using shared criteria related to accessibility, privacy,
+                    learning value, and implementation. I synthesized findings
+                    into clear comparisons that helped staff consider not only
+                    what each tool could do, but also its risks and support needs.
+                  </p>
+                  <p class="role-meta">
+                    <strong>Tools &amp; skills</strong> Qualtrics, Canva,
+                    Clipchamp, research synthesis, evaluation criteria
+                  </p>
+                </article>
+              </div>
             </div>
-
-            <div class="role-pair" data-role-page="1" aria-hidden="true">
-              <article class="role-item">
-                <span class="role-number">03</span>
-                <h3>Microsoft 365 development</h3>
-                <p>
-                  I connected familiar staff tools into clearer workflows by
-                  prototyping forms, lists, notifications, workbook logic, and
-                  staff-facing views. This reduced repeated steps and made
-                  handoffs and progress easier to follow.
-                </p>
-                <p class="role-meta">
-                  <strong>Tools &amp; skills</strong> Forms, SharePoint, Power
-                  Automate, Teams, Power Apps, Excel
-                </p>
-              </article>
-
-              <article class="role-item">
-                <span class="role-number">04</span>
-                <h3>Research &amp; evaluation</h3>
-                <p>
-                  I evaluated AI and assistive technologies through the lens of
-                  access, privacy, learning, and implementation. Shared criteria
-                  and research synthesis helped staff consider both a tool’s
-                  possibilities and the guidance its use requires.
-                </p>
-                <p class="role-meta">
-                  <strong>Tools &amp; skills</strong> Qualtrics, Canva,
-                  Clipchamp, research synthesis, evaluation criteria
-                </p>
-              </article>
-            </div>
+            <button
+              class="role-arrow role-next"
+              type="button"
+              aria-label="Show next work stream"
+            >
+              →
+            </button>
           </div>
         </div>
       </section>
@@ -279,7 +302,6 @@
 
           <div class="goals-columns">
             <article class="goals-column">
-              <span class="column-number">01</span>
               <h3>Objectives</h3>
               <ul>
                 <li>
@@ -298,7 +320,6 @@
             </article>
 
             <article class="goals-column">
-              <span class="column-number">02</span>
               <h3>Skills gained</h3>
               <ul>
                 <li>
@@ -315,7 +336,6 @@
             </article>
 
             <article class="goals-column">
-              <span class="column-number">03</span>
               <h3>Looking ahead</h3>
               <p>
                 These skills move me toward my goal of becoming a data
@@ -353,13 +373,17 @@
                 of the job. The work also needs validation, documentation,
                 feedback, and a careful understanding of who will use it.
               </p>
-              <p>
-                I am grateful to the staff at McLaughlin Library for welcoming
-                me into this work, and especially to
-                <strong>Melanie Parlette-Stewart</strong> for her supervision,
-                guidance, and support throughout the term.
-              </p>
             </div>
+          </div>
+          <div class="acknowledgements">
+            <h3>Acknowledgements</h3>
+            <p>
+              I am grateful to the staff at McLaughlin Library for welcoming me
+              into this work and sharing their knowledge throughout the term. I
+              would especially like to thank
+              <strong>Melanie Parlette-Stewart</strong> for her supervision,
+              guidance, feedback, and continued support.
+            </p>
           </div>
         </div>
       </section>

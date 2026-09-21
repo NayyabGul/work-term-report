@@ -4,9 +4,11 @@
   const links = [...nav.querySelectorAll('.nav-link[data-section]')];
   const sectionControls = [...document.querySelectorAll('[data-section]')];
   const sections = [...document.querySelectorAll('main > section[data-tone]')];
-  const roleSection = document.querySelector('#role');
-  const rolePages = [...document.querySelectorAll('[data-role-page]')];
+  const roleTrack = document.querySelector('.role-track');
+  const roleItems = [...document.querySelectorAll('.role-item')];
   const roleCount = document.querySelector('.role-count');
+  const rolePrevious = document.querySelector('.role-prev');
+  const roleNext = document.querySelector('.role-next');
   const reportDate = document.querySelector('#report-date');
   const prefersReducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let paging = false;
@@ -15,52 +17,67 @@
   let settleTimer = null;
   let targetIndex = null;
   let initialized = false;
-  let rolePageIndex = 0;
-  let rolePaging = false;
+  let roleIndex = 0;
 
-  if (reportDate) {
+  if (reportDate?.dateTime) {
     const date = new Date(`${reportDate.dateTime}T12:00:00`);
-    reportDate.textContent = new Intl.DateTimeFormat('en-CA', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    }).format(date);
+    if (!Number.isNaN(date.getTime())) {
+      reportDate.textContent = new Intl.DateTimeFormat('en-CA', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      }).format(date);
+    }
   }
 
-  function setRolePage(index, animate = true) {
-    const nextIndex = Math.max(0, Math.min(index, rolePages.length - 1));
-    rolePageIndex = nextIndex;
+  function visibleRoleItems() {
+    return window.innerWidth <= 750 ? 1 : 2;
+  }
 
-    if (!animate) roleSection?.classList.add('role-no-motion');
-    rolePages.forEach((page, pageIndex) => {
-      const active = pageIndex === nextIndex;
-      page.classList.toggle('is-active', active);
-      page.setAttribute('aria-hidden', String(!active));
+  function setRoleIndex(index, animate = true) {
+    if (!roleTrack || !roleItems.length) return;
+
+    const visibleItems = visibleRoleItems();
+    const maxIndex = Math.max(0, roleItems.length - visibleItems);
+    roleIndex = Math.max(0, Math.min(index, maxIndex));
+    const offset = roleItems[roleIndex].offsetLeft - roleTrack.offsetLeft;
+
+    if (!animate) roleTrack.style.transition = 'none';
+    roleTrack.style.transform = `translate3d(${-offset}px, 0, 0)`;
+    if (!animate) {
+      requestAnimationFrame(() => {
+        roleTrack.style.transition = '';
+      });
+    }
+
+    const first = roleIndex + 1;
+    const last = Math.min(roleIndex + visibleItems, roleItems.length);
+    if (roleCount) {
+      roleCount.textContent =
+        visibleItems === 1
+          ? `${String(first).padStart(2, '0')} / 04`
+          : `${String(first).padStart(2, '0')}–${String(last).padStart(2, '0')} / 04`;
+    }
+    if (rolePrevious) rolePrevious.disabled = roleIndex === 0;
+    if (roleNext) roleNext.disabled = roleIndex === maxIndex;
+    roleItems.forEach((item, itemIndex) => {
+      const visible = itemIndex >= roleIndex && itemIndex < roleIndex + visibleItems;
+      item.setAttribute('aria-hidden', String(!visible));
     });
-    if (roleCount) roleCount.textContent = nextIndex === 0 ? '01–02 / 04' : '03–04 / 04';
-    if (!animate) requestAnimationFrame(() => roleSection?.classList.remove('role-no-motion'));
   }
 
-  function stepRole(direction) {
-    if (window.innerWidth < 992 || rolePaging) return false;
-    const nextIndex = rolePageIndex + direction;
-    if (!rolePages[nextIndex]) return false;
-
-    rolePaging = true;
-    setRolePage(nextIndex);
-    window.setTimeout(() => {
-      rolePaging = false;
-    }, prefersReducedMotion ? 0 : 520);
-    return true;
-  }
+  rolePrevious?.addEventListener('click', () => setRoleIndex(roleIndex - 1));
+  roleNext?.addEventListener('click', () => setRoleIndex(roleIndex + 1));
 
   function scrollToSection(sectionId) {
     const target = sectionId === 'top' ? document.querySelector('#top') : document.querySelector(`#${sectionId}`);
     if (!target) return;
 
+    const instantNavigation = prefersReducedMotion || window.innerWidth < 992;
     allowLongJump = true;
-    if (sectionId === 'role') setRolePage(0, false);
+    if (sectionId === 'role') setRoleIndex(0, false);
     document.documentElement.style.scrollSnapType = 'none';
+    if (instantNavigation) document.documentElement.style.scrollBehavior = 'auto';
     const top =
       sectionId === 'top'
         ? 0
@@ -68,26 +85,41 @@
 
     window.scrollTo({
       top,
-      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      behavior: instantNavigation ? 'auto' : 'smooth',
     });
 
     window.setTimeout(
       () => {
         document.documentElement.style.scrollSnapType = '';
+        document.documentElement.style.scrollBehavior = '';
         activeIndex = Math.max(0, sections.indexOf(sectionUnderHeader()));
         allowLongJump = false;
         update();
       },
-      prefersReducedMotion ? 0 : 900
+      instantNavigation ? 50 : 900
     );
   }
 
   // Move around without changing the URL hash.
   sectionControls.forEach((control) =>
     control.addEventListener('click', () => {
-      scrollToSection(control.dataset.section);
-      const open = document.querySelector('.navbar-collapse.show');
-      if (open && window.bootstrap) bootstrap.Collapse.getOrCreateInstance(open).hide();
+      const open = document.querySelector(
+        '.navbar-collapse.show, .navbar-collapse.collapsing'
+      );
+      if (open && window.bootstrap) {
+        bootstrap.Collapse.getOrCreateInstance(open).hide();
+        window.setTimeout(() => {
+          open.classList.remove('show', 'collapsing');
+          open.classList.add('collapse');
+          open.style.height = '';
+          document
+            .querySelector('[data-bs-target="#navigation"]')
+            ?.setAttribute('aria-expanded', 'false');
+          scrollToSection(control.dataset.section);
+        }, 380);
+      } else {
+        scrollToSection(control.dataset.section);
+      }
     })
   );
 
@@ -165,9 +197,6 @@
     const next = sections[index];
     if (!next || paging) return;
 
-    const currentIndex = sections.indexOf(sectionUnderHeader());
-    if (next === roleSection) setRolePage(index > currentIndex ? 0 : rolePages.length - 1, false);
-
     paging = true;
     targetIndex = index;
     next.scrollIntoView({
@@ -197,9 +226,12 @@
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
+  window.addEventListener('resize', () => {
+    setRoleIndex(roleIndex, false);
+    onScroll();
+  });
   window.addEventListener('load', update);
-  window.addEventListener('pageshow', () => setRolePage(0, false));
+  window.addEventListener('pageshow', () => setRoleIndex(0, false));
   window.addEventListener(
     'wheel',
     (event) => {
@@ -207,10 +239,6 @@
       if (!direction || Math.abs(event.deltaY) < 16) return;
 
       const current = sectionUnderHeader();
-      if (current === roleSection && stepRole(direction)) {
-        event.preventDefault();
-        return;
-      }
       if (!canScrollInside(current, direction)) {
         event.preventDefault();
         pageTo(direction);
@@ -237,11 +265,6 @@
 
       const direction = Math.sign(distance);
       const current = sectionUnderHeader();
-      if (current === roleSection && stepRole(direction)) {
-        event.preventDefault();
-        touchStartY = null;
-        return;
-      }
       if (!canScrollInside(current, direction)) {
         event.preventDefault();
         touchStartY = null;
@@ -250,16 +273,7 @@
     },
     { passive: false }
   );
-  window.addEventListener('keydown', (event) => {
-    if (!['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp'].includes(event.key)) return;
-    if (event.target.closest('button, a, input, textarea, select')) return;
-
-    const direction = event.key === 'ArrowDown' || event.key === 'PageDown' ? 1 : -1;
-    const current = sectionUnderHeader();
-    if (current === roleSection && stepRole(direction)) {
-      event.preventDefault();
-    }
-  });
+  setRoleIndex(0, false);
   if (!prefersReducedMotion) {
     sections.forEach((section) => section.classList.add('section-motion'));
   }
