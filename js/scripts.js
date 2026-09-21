@@ -1,59 +1,75 @@
-/*!
-* Start Bootstrap - Creative v7.0.7 (https://startbootstrap.com/theme/creative)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-creative/blob/master/LICENSE)
-*/
-//
-// Scripts
-// 
+(() => {
+  const header = document.querySelector('#site-header');
+  const nav = document.querySelector('#navigation');
+  const links = [...nav.querySelectorAll('a.nav-link')];
+  const sections = [...document.querySelectorAll('main > section[data-tone]')];
 
-window.addEventListener('DOMContentLoaded', event => {
+  // Close the mobile menu after picking a link
+  links.forEach((a) =>
+    a.addEventListener('click', () => {
+      const open = document.querySelector('.navbar-collapse.show');
+      if (open && window.bootstrap) bootstrap.Collapse.getOrCreateInstance(open).hide();
+    })
+  );
 
-    // Navbar shrink function
-    var navbarShrink = function () {
-        const navbarCollapsible = document.body.querySelector('#mainNav');
-        if (!navbarCollapsible) {
-            return;
-        }
-        if (window.scrollY === 0) {
-            navbarCollapsible.classList.remove('navbar-shrink')
-        } else {
-            navbarCollapsible.classList.add('navbar-shrink')
-        }
+  // Which section is under the header right now?
+  function sectionUnderHeader() {
+    const line = header.offsetHeight + 4;
+    let current = sections[0];
+    for (const section of sections) {
+      if (section.getBoundingClientRect().top <= line) current = section;
+    }
+    return current;
+  }
 
-    };
+  function update() {
+    const current = sectionUnderHeader();
 
-    // Shrink the navbar 
-    navbarShrink();
+    // 1. Recolor the header to match the section beneath it
+    header.dataset.tone = current.dataset.tone;
+    header.style.setProperty('--header-bg', getComputedStyle(current).backgroundColor);
 
-    // Shrink the navbar when page is scrolled
-    document.addEventListener('scroll', navbarShrink);
+    // 2. Highlight the matching nav link. At the very bottom of the page,
+    //    the last section wins even if it is too short to reach the top.
+    const atBottom =
+      window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+    const active = atBottom ? sections[sections.length - 1] : current;
+    links.forEach((a) => {
+      if (a.hash === '#' + active.id) a.setAttribute('aria-current', 'location');
+      else a.removeAttribute('aria-current');
+    });
+  }
 
-    // Activate Bootstrap scrollspy on the main nav element
-    const mainNav = document.body.querySelector('#mainNav');
-    if (mainNav) {
-        new bootstrap.ScrollSpy(document.body, {
-            target: '#mainNav',
-            rootMargin: '0px 0px -40%',
-        });
-    };
+  let ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      update();
+      ticking = false;
+    });
+  }
 
-    // Collapse responsive navbar when toggler is visible
-    const navbarToggler = document.body.querySelector('.navbar-toggler');
-    const responsiveNavItems = [].slice.call(
-        document.querySelectorAll('#navbarResponsive .nav-link')
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  window.addEventListener('load', update);
+  update();
+
+  // Gentle reveal for the column, question, and acknowledgment blocks
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const observer = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.remove('pending');
+            observer.unobserve(entry.target);
+          }
+        }),
+      { threshold: 0.04 }
     );
-    responsiveNavItems.map(function (responsiveNavItem) {
-        responsiveNavItem.addEventListener('click', () => {
-            if (window.getComputedStyle(navbarToggler).display !== 'none') {
-                navbarToggler.click();
-            }
-        });
+    document.querySelectorAll('.role-col, .qa, .ack-item').forEach((el) => {
+      el.classList.add('reveal', 'pending');
+      observer.observe(el);
     });
-
-    // Activate SimpleLightbox plugin for portfolio items
-    new SimpleLightbox({
-        elements: '#portfolio a.portfolio-box'
-    });
-
-});
+  }
+})();
