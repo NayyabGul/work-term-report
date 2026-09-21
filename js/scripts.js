@@ -11,12 +11,6 @@
   const roleNext = document.querySelector('.role-next');
   const reportDate = document.querySelector('#report-date');
   const prefersReducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let paging = false;
-  let activeIndex = 0;
-  let allowLongJump = false;
-  let settleTimer = null;
-  let targetIndex = null;
-  let initialized = false;
   let roleIndex = 0;
 
   if (reportDate?.dateTime) {
@@ -74,7 +68,6 @@
     if (!target) return;
 
     const instantNavigation = prefersReducedMotion || window.innerWidth < 992;
-    allowLongJump = true;
     if (sectionId === 'role') setRoleIndex(0, false);
     document.documentElement.style.scrollSnapType = 'none';
     if (instantNavigation) document.documentElement.style.scrollBehavior = 'auto';
@@ -92,8 +85,6 @@
       () => {
         document.documentElement.style.scrollSnapType = '';
         document.documentElement.style.scrollBehavior = '';
-        activeIndex = Math.max(0, sections.indexOf(sectionUnderHeader()));
-        allowLongJump = false;
         update();
       },
       instantNavigation ? 50 : 900
@@ -135,17 +126,6 @@
 
   function update() {
     const current = sectionUnderHeader();
-    const currentIndex = sections.indexOf(current);
-
-    if (!initialized) {
-      activeIndex = currentIndex;
-      initialized = true;
-    }
-
-    if (!paging && !allowLongJump && Math.abs(currentIndex - activeIndex) > 1) {
-      snapToIndex(activeIndex + Math.sign(currentIndex - activeIndex));
-      return;
-    }
 
     // 1. Keep the header contrasted with the section beneath it.
     header.dataset.tone = current.dataset.tone === 'dark' ? 'light' : 'dark';
@@ -163,56 +143,6 @@
       else a.removeAttribute('aria-current');
     });
 
-    window.clearTimeout(settleTimer);
-    settleTimer = window.setTimeout(() => {
-      activeIndex = sections.indexOf(sectionUnderHeader());
-    }, prefersReducedMotion ? 0 : 850);
-  }
-
-  function canScrollInside(section, direction) {
-    const rect = section.getBoundingClientRect();
-    if (section.offsetHeight <= window.innerHeight + 12) return false;
-
-    const topLimit = header.offsetHeight + 10;
-    const bottomLimit = window.innerHeight - 10;
-
-    if (direction > 0) return rect.bottom > bottomLimit;
-    return rect.top < topLimit;
-  }
-
-  function pageTo(direction) {
-    if (paging) return;
-
-    const current = sectionUnderHeader();
-    if (canScrollInside(current, direction)) return;
-
-    const currentIndex = sections.indexOf(current);
-    const next = sections[currentIndex + direction];
-    if (!next) return;
-
-    snapToIndex(currentIndex + direction);
-  }
-
-  function snapToIndex(index) {
-    const next = sections[index];
-    if (!next || paging) return;
-
-    paging = true;
-    targetIndex = index;
-    next.scrollIntoView({
-      behavior: prefersReducedMotion ? 'auto' : 'smooth',
-      block: 'start',
-    });
-    window.setTimeout(() => {
-      const landedIndex = sections.indexOf(sectionUnderHeader());
-      if (targetIndex !== null && landedIndex !== targetIndex) {
-        sections[targetIndex].scrollIntoView({ behavior: 'auto', block: 'start' });
-      }
-      paging = false;
-      activeIndex = targetIndex ?? sections.indexOf(sectionUnderHeader());
-      targetIndex = null;
-      update();
-    }, prefersReducedMotion ? 0 : 760);
   }
 
   let ticking = false;
@@ -232,51 +162,7 @@
   });
   window.addEventListener('load', update);
   window.addEventListener('pageshow', () => setRoleIndex(0, false));
-  window.addEventListener(
-    'wheel',
-    (event) => {
-      const direction = Math.sign(event.deltaY);
-      if (!direction || Math.abs(event.deltaY) < 16) return;
-
-      const current = sectionUnderHeader();
-      if (!canScrollInside(current, direction)) {
-        event.preventDefault();
-        pageTo(direction);
-      }
-    },
-    { passive: false }
-  );
-
-  let touchStartY = null;
-  window.addEventListener(
-    'touchstart',
-    (event) => {
-      touchStartY = event.touches[0]?.clientY ?? null;
-    },
-    { passive: true }
-  );
-  window.addEventListener(
-    'touchmove',
-    (event) => {
-      if (touchStartY === null) return;
-
-      const distance = touchStartY - (event.touches[0]?.clientY ?? touchStartY);
-      if (Math.abs(distance) < 54) return;
-
-      const direction = Math.sign(distance);
-      const current = sectionUnderHeader();
-      if (!canScrollInside(current, direction)) {
-        event.preventDefault();
-        touchStartY = null;
-        pageTo(direction);
-      }
-    },
-    { passive: false }
-  );
   setRoleIndex(0, false);
-  if (!prefersReducedMotion) {
-    sections.forEach((section) => section.classList.add('section-motion'));
-  }
   update();
 
   // Gentle reveal for the column, question, and acknowledgment blocks

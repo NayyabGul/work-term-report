@@ -57,22 +57,6 @@ button:focus-visible {
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
-.band > .wrap {
-  transition:
-    opacity 0.55s ease,
-    filter 0.55s ease,
-    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.section-motion > .wrap {
-  opacity: 0.32;
-  filter: blur(7px);
-  transform: translateY(34px) scale(0.985);
-}
-.section-motion.section-active > .wrap {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0) scale(1);
-}
 .tone-paper {
   --bg: var(--paper);
   --fg: var(--ink);
@@ -358,24 +342,37 @@ h2 em {
 }
 
 /* ---------- 3. Employer ---------- */
+#employer {
+  padding-top: 36px;
+  padding-bottom: 36px;
+}
 .wide-title {
   max-width: 820px;
-  margin-bottom: 56px;
+  margin-bottom: 0;
+}
+.employer-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.7fr);
+  gap: 70px;
+  align-items: start;
 }
 .employer-copy {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0 80px;
+  gap: 42px;
+}
+.employer-copy article {
   border-top: 1px solid var(--rule);
-  padding-top: 38px;
+  padding-top: 18px;
+}
+.employer-copy h3 {
+  font: 24px/1.2 var(--serif);
+  margin: 0 0 14px;
 }
 .employer-copy p {
-  font-size: 20px;
-  line-height: 1.7;
-  max-width: 520px;
-}
-.employer-copy p:last-child {
-  margin-bottom: 0;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.62;
 }
 .employer-copy strong {
   font-weight: 600;
@@ -546,6 +543,10 @@ h2 em {
 }
 
 /* ---------- 6. Conclusion ---------- */
+#conclusion {
+  padding-top: 36px;
+  padding-bottom: 36px;
+}
 #conclusion .split > div p {
   max-width: 560px;
 }
@@ -655,11 +656,14 @@ footer button:focus-visible {
     padding-bottom: 80px;
   }
   .split,
-  .employer-copy,
+  .employer-layout,
   .goals-intro,
   .role-intro,
   .acknowledgements {
     grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .employer-copy {
     gap: 28px;
   }
   .role-viewport {
@@ -679,9 +683,6 @@ footer button:focus-visible {
   }
   .goals-columns {
     gap: 30px;
-  }
-  .wide-title {
-    margin-bottom: 36px;
   }
 }
 
@@ -732,6 +733,9 @@ footer button:focus-visible {
   .lead {
     font-size: 18px;
   }
+  .employer-copy {
+    grid-template-columns: 1fr;
+  }
   .goals-columns {
     grid-template-columns: 1fr;
     gap: 44px;
@@ -773,11 +777,6 @@ footer button:focus-visible {
   *,
   .reveal {
     transition: none !important;
-  }
-  .section-motion > .wrap {
-    opacity: 1;
-    filter: none;
-    transform: none;
   }
   .reveal.pending {
     opacity: 1;
