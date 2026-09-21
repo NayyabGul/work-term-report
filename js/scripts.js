@@ -4,7 +4,9 @@
   const links = [...nav.querySelectorAll('.nav-link[data-section]')];
   const sectionControls = [...document.querySelectorAll('[data-section]')];
   const sections = [...document.querySelectorAll('main > section[data-tone]')];
-  const horizontalTracks = [...document.querySelectorAll('.role-track')];
+  const roleSection = document.querySelector('#role');
+  const rolePages = [...document.querySelectorAll('[data-role-page]')];
+  const roleCount = document.querySelector('.role-count');
   const reportDate = document.querySelector('#report-date');
   const prefersReducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let paging = false;
@@ -13,6 +15,8 @@
   let settleTimer = null;
   let targetIndex = null;
   let initialized = false;
+  let rolePageIndex = 0;
+  let rolePaging = false;
 
   if (reportDate) {
     const date = new Date(`${reportDate.dateTime}T12:00:00`);
@@ -23,10 +27,31 @@
     }).format(date);
   }
 
-  function resetHorizontalTracks() {
-    horizontalTracks.forEach((track) => {
-      track.scrollLeft = 0;
+  function setRolePage(index, animate = true) {
+    const nextIndex = Math.max(0, Math.min(index, rolePages.length - 1));
+    rolePageIndex = nextIndex;
+
+    if (!animate) roleSection?.classList.add('role-no-motion');
+    rolePages.forEach((page, pageIndex) => {
+      const active = pageIndex === nextIndex;
+      page.classList.toggle('is-active', active);
+      page.setAttribute('aria-hidden', String(!active));
     });
+    if (roleCount) roleCount.textContent = nextIndex === 0 ? '01–02 / 04' : '03–04 / 04';
+    if (!animate) requestAnimationFrame(() => roleSection?.classList.remove('role-no-motion'));
+  }
+
+  function stepRole(direction) {
+    if (window.innerWidth < 992 || rolePaging) return false;
+    const nextIndex = rolePageIndex + direction;
+    if (!rolePages[nextIndex]) return false;
+
+    rolePaging = true;
+    setRolePage(nextIndex);
+    window.setTimeout(() => {
+      rolePaging = false;
+    }, prefersReducedMotion ? 0 : 520);
+    return true;
   }
 
   function scrollToSection(sectionId) {
@@ -34,7 +59,7 @@
     if (!target) return;
 
     allowLongJump = true;
-    if (sectionId === 'role') resetHorizontalTracks();
+    if (sectionId === 'role') setRolePage(0, false);
     document.documentElement.style.scrollSnapType = 'none';
     const top =
       sectionId === 'top'
@@ -140,6 +165,9 @@
     const next = sections[index];
     if (!next || paging) return;
 
+    const currentIndex = sections.indexOf(sectionUnderHeader());
+    if (next === roleSection) setRolePage(index > currentIndex ? 0 : rolePages.length - 1, false);
+
     paging = true;
     targetIndex = index;
     next.scrollIntoView({
@@ -171,27 +199,7 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
   window.addEventListener('load', update);
-  window.addEventListener('pageshow', resetHorizontalTracks);
-  horizontalTracks.forEach((track) =>
-    track.addEventListener(
-      'wheel',
-      (event) => {
-        const movement = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
-        const direction = Math.sign(movement);
-        const canMove =
-          direction > 0
-            ? track.scrollLeft + track.clientWidth < track.scrollWidth - 2
-            : track.scrollLeft > 2;
-
-        if (direction && canMove) {
-          event.preventDefault();
-          event.stopPropagation();
-          track.scrollBy({ left: movement, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-        }
-      },
-      { passive: false }
-    )
-  );
+  window.addEventListener('pageshow', () => setRolePage(0, false));
   window.addEventListener(
     'wheel',
     (event) => {
@@ -199,6 +207,10 @@
       if (!direction || Math.abs(event.deltaY) < 16) return;
 
       const current = sectionUnderHeader();
+      if (current === roleSection && stepRole(direction)) {
+        event.preventDefault();
+        return;
+      }
       if (!canScrollInside(current, direction)) {
         event.preventDefault();
         pageTo(direction);
@@ -225,6 +237,11 @@
 
       const direction = Math.sign(distance);
       const current = sectionUnderHeader();
+      if (current === roleSection && stepRole(direction)) {
+        event.preventDefault();
+        touchStartY = null;
+        return;
+      }
       if (!canScrollInside(current, direction)) {
         event.preventDefault();
         touchStartY = null;
@@ -233,6 +250,16 @@
     },
     { passive: false }
   );
+  window.addEventListener('keydown', (event) => {
+    if (!['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp'].includes(event.key)) return;
+    if (event.target.closest('button, a, input, textarea, select')) return;
+
+    const direction = event.key === 'ArrowDown' || event.key === 'PageDown' ? 1 : -1;
+    const current = sectionUnderHeader();
+    if (current === roleSection && stepRole(direction)) {
+      event.preventDefault();
+    }
+  });
   if (!prefersReducedMotion) {
     sections.forEach((section) => section.classList.add('section-motion'));
   }
@@ -251,7 +278,7 @@
       { threshold: 0.04 }
     );
     document
-      .querySelectorAll('.role-card, .goal-card, .skills-panel, .future-note')
+      .querySelectorAll('.role-item, .goals-column')
       .forEach((el) => {
         el.classList.add('reveal', 'pending');
         observer.observe(el);

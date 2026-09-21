@@ -11,7 +11,7 @@
   --line: #d1cdbf;
   --serif: "Italiana", Georgia, "Times New Roman", serif;
   --sans: "DM Sans", Arial, sans-serif;
-  --header-h: 96px;
+  --header-h: 68px;
 }
 * {
   box-sizing: border-box;
@@ -50,10 +50,10 @@ button:focus-visible {
   align-items: center;
   background: var(--bg);
   color: var(--fg);
-  min-height: 100vh;
-  min-height: 100svh;
-  padding-top: 110px;
-  padding-bottom: 110px;
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));
+  padding-top: 64px;
+  padding-bottom: 64px;
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
@@ -111,7 +111,7 @@ header.navbar {
   top: 0;
   z-index: 100;
   min-height: var(--header-h);
-  padding: 14px 0;
+  padding: 6px 0;
   background-color: var(--header-bg);
   color: var(--header-ink);
   border-bottom: 1px solid var(--header-line);
@@ -140,7 +140,7 @@ header.navbar[data-tone="light"] {
 .navbar .brand:hover,
 .navbar .brand:focus {
   font-family: var(--serif);
-  font-size: 29px;
+  font-size: 25px;
   line-height: 1.15;
   color: var(--header-ink);
   margin: 0;
@@ -148,15 +148,9 @@ header.navbar[data-tone="light"] {
   background: transparent;
   border: 0;
 }
-.brand span {
-  display: block;
-  font: 12px var(--sans);
-  letter-spacing: 1.4px;
-  margin-top: 8px;
-}
 .navbar-nav {
-  gap: 24px;
-  font-size: 16px;
+  gap: 22px;
+  font-size: 15px;
 }
 .navbar .nav-link,
 .navbar .nav-link:hover,
@@ -229,7 +223,7 @@ h2 em {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 44px;
+  margin-bottom: 32px;
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.03em;
@@ -247,27 +241,6 @@ h2 em {
   background: var(--rule);
 }
 
-/* Oval marker, echoing the reference layout's labels */
-.marker {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 0 0 14px;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: 0.03em;
-}
-.marker:before {
-  content: "";
-  flex: none;
-  width: 24px;
-  height: 10px;
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  opacity: 0.75;
-}
-
 /* Two-column heading + copy */
 .split {
   display: grid;
@@ -282,13 +255,6 @@ h2 em {
 .split > div > p:last-child {
   margin-bottom: 0;
 }
-.split-tight {
-  align-items: center;
-  margin-bottom: 72px;
-}
-.split-tight > p {
-  margin: 0;
-}
 .draft-note {
   font-size: 15px;
   line-height: 1.7;
@@ -299,16 +265,22 @@ h2 em {
 
 /* ---------- 1. Hero ---------- */
 .band.hero {
-  min-height: 100vh;
-  min-height: 100svh;
-  padding-top: 70px;
-  padding-bottom: 60px;
+  height: calc(100vh - var(--header-h));
+  height: calc(100svh - var(--header-h));
+  min-height: 620px;
+  padding-top: 42px;
+  padding-bottom: 42px;
+}
+.hero > .wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 .hero h1 {
-  font: clamp(56px, 7.2vw, 104px)/1.09 var(--serif);
+  font: clamp(54px, 6.8vw, 96px)/1.05 var(--serif);
   font-weight: 400;
   letter-spacing: 0;
-  margin: 0 0 62px;
+  margin: auto 0;
 }
 .hero h1 em {
   font-size: 0.92em;
@@ -318,7 +290,7 @@ h2 em {
   display: flex;
   justify-content: space-between;
   gap: 32px;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
   color: var(--fg-muted);
   font-size: 16px;
   font-weight: 500;
@@ -336,7 +308,7 @@ h2 em {
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid var(--rule);
-  padding-top: 32px;
+  padding-top: 24px;
 }
 .hero-bottom p {
   margin: 0;
@@ -404,88 +376,94 @@ h2 em {
 }
 
 /* ---------- 4. Role ---------- */
-.role-track {
-  display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
-  scroll-padding-inline: 2px;
-  scroll-snap-type: x mandatory;
-  border-top: 1px solid var(--rule);
-  padding: 34px 2px 18px;
-  scrollbar-color: var(--accent) transparent;
+#role,
+#goals {
+  padding-top: 36px;
+  padding-bottom: 32px;
 }
-.role-track:focus-visible {
+.role-intro {
+  display: grid;
+  grid-template-columns: minmax(400px, 0.9fr) minmax(380px, 1fr) auto;
+  align-items: end;
+  gap: 44px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rule);
+}
+.role-intro h2 {
+  font-size: 52px;
+}
+.role-intro h2,
+.role-intro p {
+  margin: 0;
+}
+.role-intro p {
+  max-width: 560px;
+  color: var(--fg-muted);
+}
+.role-count {
+  color: var(--accent);
+  font: 20px/1 var(--serif);
+  white-space: nowrap;
+}
+.role-viewport {
+  display: grid;
+  min-height: 282px;
+  padding-top: 24px;
+  overflow: hidden;
+}
+.role-viewport:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 8px;
 }
-.role-card {
-  display: flex;
-  flex: 0 0 min(520px, calc(50% - 12px));
-  flex-direction: column;
-  min-height: 560px;
-  padding: 30px;
-  border: 1px solid var(--rule);
-  scroll-snap-align: start;
-  background: rgba(247, 244, 235, 0.035);
+.role-pair {
+  grid-area: 1 / 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 70px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(26px);
+  transition:
+    opacity 0.45s ease,
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0.55s;
 }
-.role-kicker {
-  color: var(--accent);
-  font: 28px/1 var(--serif);
-  margin: 0 0 24px;
+.role-pair.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition-delay: 0s;
 }
-.role-card h3 {
-  font: 34px/1.13 var(--serif);
-  margin: 0 0 18px;
+.role-no-motion .role-pair {
+  transition: none;
 }
-.role-lead {
-  font-size: 18px;
-}
-.role-block {
-  margin-bottom: 22px;
-}
-.role-block > p {
-  font-size: 16px;
-  color: var(--fg-muted);
-  margin: 0;
-}
-.project-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.project-list li {
-  padding: 14px 0;
-  border-top: 1px solid var(--rule);
-  font-size: 16px;
-  line-height: 1.65;
-  color: var(--fg-muted);
-}
-.project-list li:first-child {
-  border-top: 0;
-  padding-top: 0;
-}
-.project-list strong {
+.role-number,
+.column-number {
   display: block;
-  font-weight: 500;
+  color: var(--accent);
+  font: 22px/1 var(--serif);
+  margin-bottom: 13px;
+}
+.role-item h3 {
+  font: 29px/1.15 var(--serif);
+  margin: 0 0 13px;
+}
+.role-item > p {
+  font-size: 16px;
+  line-height: 1.58;
+}
+.role-meta {
+  color: var(--fg-muted);
+  margin: 13px 0 0;
+}
+.role-meta strong {
+  display: block;
   color: var(--fg);
-}
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  list-style: none;
-  margin: auto 0 0;
-  padding: 0;
-  padding-top: 22px;
-}
-.tags li {
   font-size: 14px;
-  line-height: 1.4;
-  letter-spacing: 0.02em;
-  padding: 4px 14px;
-  border: 1px solid color-mix(in srgb, currentColor 45%, transparent);
-  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
 }
 
 /* ---------- 5. Goals ---------- */
@@ -495,8 +473,8 @@ h2 em {
   gap: 72px;
   align-items: end;
   border-bottom: 1px solid var(--rule);
-  padding-bottom: 42px;
-  margin-bottom: 34px;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
 }
 .goals-intro h2 {
   margin: 0;
@@ -504,88 +482,37 @@ h2 em {
 .goals-intro p {
   max-width: 620px;
   margin: 0;
-  font-size: 20px;
-  line-height: 1.65;
+  font-size: 18px;
+  line-height: 1.55;
 }
-.goal-grid {
+.goals-columns {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  margin-bottom: 30px;
+  gap: 62px;
 }
-.goal-card {
-  min-height: 235px;
-  padding: 24px;
-  border: 1px solid var(--rule);
+.goals-column h3 {
+  font: 29px/1.18 var(--serif);
+  margin: 0 0 18px;
 }
-.goal-card span {
-  display: block;
-  color: var(--accent);
-  font: 26px/1 var(--serif);
-  margin-bottom: 22px;
-}
-.goal-card h3 {
-  font: 28px/1.18 var(--serif);
-  margin: 0;
-  max-width: 280px;
-}
-.goal-card p {
-  margin: 16px 0 0;
-  font-size: 16px;
-  line-height: 1.65;
+.goals-column p,
+.goals-column li {
+  font-size: 15.5px;
+  line-height: 1.58;
   color: var(--fg-muted);
 }
-.skills-panel {
-  display: grid;
-  grid-template-columns: minmax(240px, 0.7fr) 1fr;
-  gap: 50px;
-  padding: 30px 0;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-}
-.skills-panel h3 {
-  font: 34px/1.15 var(--serif);
-  margin: 0 0 14px;
-}
-.skills-panel p {
-  max-width: 360px;
+.goals-column ul {
   margin: 0;
-  color: var(--fg-muted);
-  font-size: 16px;
+  padding-left: 20px;
 }
-.skill-columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 34px;
+.goals-column li + li {
+  margin-top: 12px;
 }
-.skill-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  list-style: none;
-  margin: 18px 0 0;
-  padding: 0;
-}
-.skill-list li {
-  font-size: 15px;
-  line-height: 1.35;
-  padding: 7px 13px;
-  border: 1px solid color-mix(in srgb, currentColor 38%, transparent);
-  border-radius: 999px;
-}
-.future-note {
-  display: grid;
-  grid-template-columns: minmax(240px, 0.7fr) 1fr;
-  gap: 50px;
-  padding-top: 30px;
-}
-.future-note h3 {
-  font: 34px/1.15 var(--serif);
+.goals-column p {
   margin: 0;
 }
-.future-note p {
-  max-width: 700px;
-  margin: 0;
+.goals-column strong {
+  color: var(--fg);
+  font-weight: 600;
 }
 
 /* ---------- 6. Conclusion ---------- */
@@ -598,9 +525,9 @@ h2 em {
 
 /* ---------- Footer ---------- */
 footer {
-  background: var(--olive-deep);
-  color: var(--paper);
-  border-top: 1px solid rgba(247, 244, 235, 0.22);
+  background: var(--paper);
+  color: var(--ink);
+  border-top: 1px solid var(--line);
   font-size: 15px;
   scroll-snap-align: end;
 }
@@ -619,7 +546,7 @@ footer {
 }
 footer p {
   margin: 0;
-  color: rgba(247, 244, 235, 0.76);
+  color: var(--muted);
   line-height: 1.55;
 }
 footer button {
@@ -663,7 +590,7 @@ footer button:focus-visible {
 /* ---------- Tablet and below ---------- */
 @media (max-width: 991.98px) {
   :root {
-    --header-h: 84px;
+    --header-h: 64px;
   }
   .navbar .brand,
   .navbar .brand:hover {
@@ -676,27 +603,37 @@ footer button:focus-visible {
     gap: 6px;
   }
   .band {
+    min-height: calc(100svh - var(--header-h));
     padding-top: 80px;
     padding-bottom: 80px;
   }
   .split,
   .employer-copy,
   .goals-intro,
-  .skills-panel,
-  .future-note {
+  .role-intro {
     grid-template-columns: 1fr;
     gap: 28px;
   }
-  .split-tight {
-    margin-bottom: 48px;
+  .role-count {
+    display: none;
   }
-  .role-card {
-    flex-basis: min(560px, 82vw);
-    min-height: 0;
+  .role-viewport {
+    display: block;
+    overflow: visible;
+    padding-top: 34px;
   }
-  .goal-grid,
-  .skill-columns {
-    grid-template-columns: 1fr;
+  .role-pair,
+  .role-pair.is-active {
+    grid-area: auto;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .role-pair + .role-pair {
+    margin-top: 52px;
+  }
+  .goals-columns {
+    gap: 30px;
   }
   .wide-title {
     margin-bottom: 36px;
@@ -710,6 +647,8 @@ footer button:focus-visible {
     padding-bottom: 60px;
   }
   .band.hero {
+    height: auto;
+    min-height: calc(100svh - var(--header-h));
     padding-top: 42px;
     padding-bottom: 40px;
   }
@@ -748,20 +687,17 @@ footer button:focus-visible {
   .lead {
     font-size: 18px;
   }
-  .role-card {
-    flex-basis: 86vw;
-    padding: 24px;
+  .role-pair,
+  .goals-columns {
+    grid-template-columns: 1fr;
+    gap: 44px;
   }
-  .role-card h3,
-  .skills-panel h3,
-  .future-note h3 {
+  .role-item h3,
+  .goals-column h3 {
     font-size: 28px;
   }
   .goals-intro p {
     font-size: 18px;
-  }
-  .goal-card {
-    min-height: 0;
   }
   .footer-grid {
     grid-template-columns: 1fr;
@@ -824,10 +760,8 @@ footer button:focus-visible {
     opacity: 1;
     transform: none;
   }
-  .role-card,
-  .goal-card,
-  .skills-panel,
-  .future-note,
+  .role-item,
+  .goals-column,
   .employer-copy {
     break-inside: avoid;
   }
