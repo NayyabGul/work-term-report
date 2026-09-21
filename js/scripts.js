@@ -3,6 +3,16 @@
   const nav = document.querySelector('#navigation');
   const links = [...nav.querySelectorAll('a.nav-link')];
   const sections = [...document.querySelectorAll('main > section[data-tone]')];
+  const reportDate = document.querySelector('#report-date');
+
+  if (reportDate) {
+    const date = new Date(`${reportDate.dateTime}T12:00:00`);
+    reportDate.textContent = new Intl.DateTimeFormat('en-CA', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    }).format(date);
+  }
 
   // Close the mobile menu after picking a link
   links.forEach((a) =>
