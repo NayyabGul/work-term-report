@@ -18,28 +18,29 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="css/styles.css" />
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
       defer
     ></script>
-    <script src="/js/scripts.js" defer></script>
+    <script src="js/scripts.js" defer></script>
   </head>
   <body>
     <a class="skip" href="#introduction">Skip to report</a>
 
-    <!-- The header stays pinned. script.js recolors it to match whichever section is underneath. -->
-    <header id="site-header" class="navbar navbar-expand-lg" data-tone="light">
+    <!-- The header stays pinned. script.js keeps it contrasting with the section underneath. -->
+    <header id="site-header" class="navbar navbar-expand-lg" data-tone="dark">
       <div class="wrap header-inner">
-        <a
+        <button
           class="brand navbar-brand"
-          href="#top"
+          type="button"
+          data-section="top"
           aria-label="Nayyab Gul, back to top"
         >
-          Nayyab Gul<span> BComp. Software Engineering </span>
-        </a>
+          Nayyab Gul
+        </button>
         <button
           class="navbar-toggler"
           type="button"
@@ -57,12 +58,11 @@
           aria-label="Report sections"
         >
           <div class="navbar-nav">
-            <a class="nav-link" href="#introduction">Introduction</a>
-            <a class="nav-link" href="#employer">Employer</a>
-            <a class="nav-link" href="#role">My role</a>
-            <a class="nav-link" href="#goals">Goals</a>
-            <a class="nav-link" href="#conclusion">Conclusion</a>
-            <a class="nav-link" href="#acknowledgments">Thanks</a>
+            <button class="nav-link" type="button" data-section="introduction">Introduction</button>
+            <button class="nav-link" type="button" data-section="employer">Employer</button>
+            <button class="nav-link" type="button" data-section="role">My role</button>
+            <button class="nav-link" type="button" data-section="goals">Goals</button>
+            <button class="nav-link" type="button" data-section="conclusion">Conclusion</button>
           </div>
         </nav>
       </div>
@@ -88,9 +88,14 @@
           </h1>
           <div class="hero-bottom">
             <p>McLaughlin Library, University of Guelph</p>
-            <a class="round-link" href="#introduction">
+            <button
+              class="round-link"
+              type="button"
+              data-section="introduction"
+              aria-label="Read the report"
+            >
               <span>Read the report</span><b aria-hidden="true">↓</b>
-            </a>
+            </button>
           </div>
         </div>
       </section>
@@ -106,20 +111,20 @@
           <div class="section-label"><span class="num">01</span> Introduction</div>
           <div class="split">
             <h2 id="introduction-title">
-              Technology with a<br /><em>practical purpose.</em>
+              Computing in a<br /><em>student support setting.</em>
             </h2>
             <div>
               <p class="lead">
-                From May to August 2026, I worked at the University of Guelph’s
-                McLaughlin Library, supporting projects where technology,
-                research, and academic support met.
+                During my Summer 2026 co-op term, I worked as an Undergraduate
+                Research Assistant in AI in Academic Skill Development at
+                McLaughlin Library, University of Guelph.
               </p>
               <p>
-                My work included automating data collection, improving
-                scheduling tools, prototyping a reporting workflow, and
-                researching AI and assistive technologies. This report
-                highlights what I contributed and the learning these projects
-                supported.
+                The term showed me how software, data, and AI can support
+                learning when they are built carefully. Much of my work focused
+                on making information easier to organize, helping staff compare
+                tools more clearly, and creating workflows that could be
+                reviewed, maintained, and used beyond one person’s desk.
               </p>
             </div>
           </div>
@@ -138,27 +143,27 @@
             <span class="num">02</span> About the employer
           </div>
           <h2 id="employer-title" class="wide-title">
-            A library that supports<br /><em>how students learn.</em>
+            The role of<br /><em>McLaughlin Library.</em>
           </h2>
-          <div class="cols-2">
-            <div>
-              <h3 class="marker">The library</h3>
-              <p>
-                McLaughlin Library supports learning, research, and academic
-                skill development at the University of Guelph. I worked with
-                internal library and academic-support teams on tools and
-                research intended to support staff and students.
-              </p>
-            </div>
-            <div>
-              <h3 class="marker">Where computing fit in</h3>
-              <p>
-                Computing was part of the service work: turning web content
-                into usable data, checking information quality, connecting
-                Microsoft 365 applications, and translating staff needs into
-                maintainable tools.
-              </p>
-            </div>
+          <div class="employer-copy">
+            <p>
+              McLaughlin Library is a central part of academic life at the
+              University of Guelph. It supports students, staff, and faculty
+              through <strong>study, writing, data, research, publishing,
+              teaching, and accessibility</strong> services, including workshops
+              and one-on-one appointments. It is also home to learning supports
+              that help students build skills in areas such as research,
+              technology, writing, numeracy, studying, and time management.
+            </p>
+            <p>
+              My work connected to that mission by focusing on how technology
+              can make academic support more <strong>usable, inclusive, and
+              sustainable</strong>. As AI becomes more visible in learning
+              environments, libraries have an important role in helping people
+              ask better questions: what a tool does well, what risks it
+              creates, how accessible it is, and how students and staff can use
+              it responsibly.
+            </p>
           </div>
         </div>
       </section>
@@ -173,52 +178,40 @@
         <div class="wrap">
           <div class="section-label"><span class="num">03</span> My role</div>
           <div class="split split-tight">
-            <h2 id="role-title">One role,<br /><em>three kinds of work.</em></h2>
+            <h2 id="role-title">One role,<br /><em>four work streams.</em></h2>
             <p>
-              As an Undergraduate Research Assistant in AI in Academic Skill
-              Development, my time was split across three areas: automating
-              and preparing data, researching AI and assistive technology, and
-              developing Microsoft 365 solutions for library staff. In each, the
-              routine was the same. I worked out what staff needed, built or
-              tested something, gathered feedback, and documented it for
-              handoff.
+              My role was less about one fixed task and more about supporting
+              the library’s digital and academic-skills work from several
+              angles. I moved between data preparation, AI-supported workflows,
+              Microsoft 365 tools, and research tasks, always focusing on work
+              that could be checked, explained, and handed off clearly.
             </p>
           </div>
 
-          <div class="role-cols">
-            <!-- Category 1 -->
-            <article class="role-col">
-              <h3>Automation, data &amp; prompt engineering</h3>
+          <div class="role-track" tabindex="0" aria-label="Role work areas">
+            <article class="role-card">
+              <p class="role-kicker">01</p>
+              <h3>Automation &amp; data</h3>
               <p class="role-lead">
-                I turned manual, inconsistent information into structured,
-                reviewable data. That meant writing Python automation, designing
-                validation and cleaning steps, and engineering prompts for
-                AI-assisted tasks, then documenting each workflow so staff could
-                repeat it.
+                I helped turn messy or manual information into structured,
+                reviewable data. That included collecting information,
+                cleaning records, checking for inconsistencies, and preparing
+                outputs that staff could inspect instead of treating automation
+                as a black box.
               </p>
               <div class="role-block">
-                <h4 class="marker">Projects</h4>
-                <ul class="project-list">
-                  <li>
-                    <strong>Academic program profiling</strong>
-                    A reusable Python workflow that collects program
-                    requirements, courses, and descriptions from university
-                    calendar pages, classifies requirements, and flags records
-                    for review.
-                  </li>
-                  <li>
-                    <strong>Consultation data cleaning</strong>
-                    Standardized Writing &amp; Learning Services consultation
-                    records, checked missing and inconsistent values, and
-                    documented the cleaning process.
-                  </li>
-                </ul>
+                <h4 class="marker">Work examples</h4>
+                <p>
+                  Built repeatable scripts, cleaned spreadsheet-based records,
+                  organized extracted information, and added review steps for
+                  cases that needed human judgment.
+                </p>
               </div>
               <div class="role-block">
-                <h4 class="marker">What it delivered</h4>
+                <h4 class="marker">Why it helped</h4>
                 <p>
-                  Reviewable datasets and documented workflows that staff can
-                  reuse for future profiling and reporting work.
+                  The work made information easier to compare, update, and
+                  reuse, while keeping staff in control of final decisions.
                 </p>
               </div>
               <ul class="tags" aria-label="Tools used">
@@ -231,85 +224,60 @@
               </ul>
             </article>
 
-            <!-- Category 2 -->
-            <article class="role-col">
-              <h3>Research &amp; evaluation</h3>
+            <article class="role-card">
+              <p class="role-kicker">02</p>
+              <h3>Prompt engineering</h3>
               <p class="role-lead">
-                I researched how AI and assistive technologies could support
-                students, comparing tools against structured criteria and
-                gathering student input instead of relying on product claims.
+                I used prompt design as a practical workflow skill, not just an
+                AI shortcut. I tested how prompts changed the consistency,
+                usefulness, and limits of outputs, then adjusted instructions so
+                results were easier to review.
               </p>
               <div class="role-block">
-                <h4 class="marker">Projects</h4>
-                <ul class="project-list">
-                  <li>
-                    <strong>AI tool evaluation</strong>
-                    Compared academic-support tools on functionality, use
-                    cases, limitations, privacy, and implementation concerns.
-                  </li>
-                  <li>
-                    <strong>AI policy &amp; guidelines</strong>
-                    Reviewed university generative-AI guidance and summarized
-                    recurring themes in an environmental scan.
-                  </li>
-                  <li>
-                    <strong>Student focus groups</strong>
-                    Supported recruitment, scheduling, and preparation, and
-                    created the materials and forms used to gather feedback.
-                  </li>
-                  <li>
-                    <strong>Assistive technology scan</strong>
-                    Compared accessibility tools by use case, AI functionality,
-                    data processing, privacy, and retention.
-                  </li>
-                </ul>
+                <h4 class="marker">Work examples</h4>
+                <p>
+                  Drafted and refined prompts for classification, summaries, and
+                  structured outputs, then compared results against expected
+                  formats and documented what still needed review.
+                </p>
               </div>
               <div class="role-block">
-                <h4 class="marker">What it delivered</h4>
+                <h4 class="marker">Why it helped</h4>
                 <p>
-                  A consistent basis for staff to compare options, along with
-                  student perspectives on AI and academic skills.
+                  It helped make AI-supported work more transparent, repeatable,
+                  and careful about accuracy instead of treating outputs as
+                  automatically correct.
                 </p>
               </div>
               <ul class="tags" aria-label="Tools used">
-                <li>Canva</li>
-                <li>Clipchamp</li>
-                <li>Qualtrics</li>
+                <li>Prompt design</li>
+                <li>Output review</li>
+                <li>Documentation</li>
+                <li>Quality checks</li>
               </ul>
             </article>
 
-            <!-- Category 3 -->
-            <article class="role-col">
-              <h3>Microsoft 365 solutions development</h3>
+            <article class="role-card">
+              <p class="role-kicker">03</p>
+              <h3>Microsoft 365 development</h3>
               <p class="role-lead">
-                I designed and built workflow tools on Microsoft 365, starting
-                from how staff actually work, testing changes with them, and
-                preparing documentation for handoff.
+                I worked with Microsoft 365 as a way to connect familiar staff
+                tools into clearer workflows. The goal was to reduce repeated
+                manual steps and make routine processes easier to track.
               </p>
               <div class="role-block">
-                <h4 class="marker">Projects</h4>
-                <ul class="project-list">
-                  <li>
-                    <strong>Library noise reporting</strong>
-                    A prototype connecting user reports to a staff ticket
-                    process. Staff can claim, update, reassign, and escalate
-                    reports through Teams and a customized Power Apps form.
-                  </li>
-                  <li>
-                    <strong>Supported Learning Group scheduling</strong>
-                    An improved Excel workbook with lecture, availability,
-                    session, and room-conflict checks, plus dropdowns and
-                    conditional formatting.
-                  </li>
-                </ul>
+                <h4 class="marker">Work examples</h4>
+                <p>
+                  Prototyped connected forms, lists, notifications, workbook
+                  logic, and staff-facing views, then tested whether the flow
+                  matched how people would actually use it.
+                </p>
               </div>
               <div class="role-block">
-                <h4 class="marker">What it delivered</h4>
+                <h4 class="marker">Why it helped</h4>
                 <p>
-                  An end-to-end prototype with implementation options and
-                  handoff documentation (a prototype, not a confirmed
-                  library-wide launch), and a scheduling workbook that
-                  highlights conflicts automatically.
+                  These tools supported clearer handoffs, fewer hidden steps,
+                  and more visible status tracking for staff workflows.
                 </p>
               </div>
               <ul class="tags" aria-label="Tools used">
@@ -319,6 +287,39 @@
                 <li>Teams</li>
                 <li>Power Apps</li>
                 <li>Excel</li>
+              </ul>
+            </article>
+
+            <article class="role-card">
+              <p class="role-kicker">04</p>
+              <h3>Research &amp; evaluation</h3>
+              <p class="role-lead">
+                I also supported research into AI and assistive technologies for
+                academic skill development. This meant looking beyond features
+                and asking how tools might affect access, privacy, learning, and
+                implementation.
+              </p>
+              <div class="role-block">
+                <h4 class="marker">Work examples</h4>
+                <p>
+                  Compared tools using shared criteria, reviewed guidance and
+                  policy themes, prepared research materials, and helped gather
+                  feedback connected to student learning needs.
+                </p>
+              </div>
+              <div class="role-block">
+                <h4 class="marker">Why it helped</h4>
+                <p>
+                  The work gave staff a more balanced way to think about AI:
+                  not just what tools can do, but who they support, what risks
+                  they introduce, and where human guidance matters.
+                </p>
+              </div>
+              <ul class="tags" aria-label="Tools used">
+                <li>Canva</li>
+                <li>Clipchamp</li>
+                <li>Qualtrics</li>
+                <li>Evaluation criteria</li>
               </ul>
             </article>
           </div>
@@ -336,132 +337,88 @@
           <div class="section-label">
             <span class="num">04</span> Goals &amp; learning outcomes
           </div>
-          <div class="split split-tight">
-            <h2 id="goals-title">
-              Goals I set,<br /><em>and how they went.</em>
-            </h2>
-            <p class="draft-note">
-              Draft answers based on the work described above. To be checked
-              against my original work-term goals before submission.
+          <div class="goals-intro">
+            <h2 id="goals-title">Goals<br /><em>for the term.</em></h2>
+            <p>
+              My main goal was to grow from completing assigned tasks into
+              building thoughtful, reusable work. I wanted to become stronger at
+              solving messy problems, communicating technical choices, and
+              thinking about how data and AI tools affect real learning
+              environments.
             </p>
           </div>
 
-          <div class="qa-list">
-            <article class="qa">
-              <h3>What were my goals for this work term?</h3>
-              <div class="qa-body">
-                <p>
-                  I wanted the term to move me from completing tasks to building
-                  things other people can rely on. That came down to three
-                  learning goals:
-                </p>
-                <ul class="oval-list">
-                  <li>Build data workflows that others can repeat, not one-time results.</li>
-                  <li>Turn staff needs into tools that fit how people already work.</li>
-                  <li>Evaluate technology on usefulness, accessibility, and privacy, not features alone.</li>
+          <div class="goal-grid">
+            <article class="goal-card">
+              <span>01</span>
+              <h3>Build repeatable workflows</h3>
+              <p>
+                I wanted to practise turning manual work into processes that
+                could be checked, reused, and explained after I handed them off.
+              </p>
+            </article>
+            <article class="goal-card">
+              <span>02</span>
+              <h3>Connect tools to staff needs</h3>
+              <p>
+                I wanted to understand what people actually needed from a tool
+                before deciding what to build or automate.
+              </p>
+            </article>
+            <article class="goal-card">
+              <span>03</span>
+              <h3>Evaluate AI responsibly</h3>
+              <p>
+                I wanted to look at AI and assistive technologies through
+                usefulness, accessibility, privacy, and student support, not just
+                through features.
+              </p>
+            </article>
+          </div>
+
+          <div class="skills-panel">
+            <div>
+              <h3>Skills gained</h3>
+              <p>
+                The term helped me build both technical confidence and the
+                professional habits that make technical work useful to a team.
+              </p>
+            </div>
+            <div class="skill-columns">
+              <section aria-labelledby="technical-skills">
+                <h4 id="technical-skills" class="marker">Technical</h4>
+                <ul class="skill-list">
+                  <li>Python automation</li>
+                  <li>Data cleaning and validation</li>
+                  <li>Spreadsheet logic</li>
+                  <li>Microsoft 365 workflows</li>
+                  <li>Prompt engineering</li>
+                  <li>Research synthesis</li>
                 </ul>
-              </div>
-            </article>
-
-            <article class="qa">
-              <h3>Did I set goals tied to my job tasks?</h3>
-              <div class="qa-body">
-                <p>
-                  Yes. Each learning goal was attached to specific work, so
-                  progress could be checked against real output.
-                </p>
-                <ul class="oval-list">
-                  <li>
-                    <strong>Data workflows:</strong> the academic program
-                    profiling workflow and the consultation data cleaning.
-                  </li>
-                  <li>
-                    <strong>Tools for staff:</strong> the noise-reporting
-                    prototype and the Supported Learning Group scheduling
-                    workbook.
-                  </li>
-                  <li>
-                    <strong>Technology evaluation:</strong> the AI tool
-                    comparison, policy scan, assistive technology scan, and
-                    student focus groups.
-                  </li>
+              </section>
+              <section aria-labelledby="professional-skills">
+                <h4 id="professional-skills" class="marker">Professional</h4>
+                <ul class="skill-list">
+                  <li>Asking clearer questions</li>
+                  <li>Testing with feedback</li>
+                  <li>Writing documentation</li>
+                  <li>Explaining technical choices</li>
+                  <li>Working independently</li>
+                  <li>Thinking about maintainability</li>
                 </ul>
-              </div>
-            </article>
+              </section>
+            </div>
+          </div>
 
-            <article class="qa">
-              <h3>What skills did I want to learn, and how will they help next?</h3>
-              <div class="qa-body">
-                <p>
-                  I wanted to strengthen programming for data extraction and
-                  validation, spreadsheet logic, Microsoft 365 workflow tools,
-                  structured research, and documentation.
-                </p>
-                <p>
-                  These carry directly into my next work experience. Reusable,
-                  documented work is easier for a team to trust, and turning a
-                  colleague’s request into something testable is useful in any
-                  software or data role.
-                </p>
-              </div>
-            </article>
-
-            <article class="qa">
-              <h3>Which technologies did I want to work with, and why?</h3>
-              <div class="qa-body">
-                <ul class="oval-list">
-                  <li>
-                    <strong>Python</strong> (Requests, BeautifulSoup, OpenPyXL,
-                    NumPy, Seaborn): to pull messy web content and inconsistent
-                    records into clean, checkable data.
-                  </li>
-                  <li>
-                    <strong>Excel logic:</strong> formulas, data validation, and
-                    conditional formatting, because staff already rely on
-                    workbooks and better logic helps them immediately.
-                  </li>
-                  <li>
-                    <strong>Microsoft 365</strong> (Forms, SharePoint, Power
-                    Automate, Teams, Power Apps): to connect tools staff already
-                    use into one reporting process.
-                  </li>
-                  <li>
-                    <strong>AI and assistive tools:</strong> as research
-                    subjects, to understand what they offer students and what
-                    they cost in privacy.
-                  </li>
-                </ul>
-              </div>
-            </article>
-
-            <article class="qa">
-              <h3>Which goals did I complete, and which did I not?</h3>
-              <div class="qa-body">
-                <div class="outcome-cols">
-                  <div>
-                    <h4 class="marker">Completed</h4>
-                    <p>
-                      Reusable, documented workflows for program profiling and
-                      consultation data. A working noise-reporting prototype and
-                      a more flexible scheduling workbook, both refined with
-                      staff feedback. Structured comparisons of AI and assistive
-                      tools that staff can use as a shared reference.
-                    </p>
-                  </div>
-                  <div>
-                    <h4 class="marker">Not fully completed</h4>
-                    <p>
-                      Taking the noise-reporting prototype to a confirmed
-                      library-wide launch, and measuring long-term adoption or
-                      service impact. Both depend on decisions and follow-up
-                      after the term ends. I also did not connect the evaluation
-                      findings to observed use, since that needs time with the
-                      tools in practice.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </article>
+          <div class="future-note">
+            <h3>Looking ahead</h3>
+            <p>
+              These skills connect directly to my future goal of becoming a data
+              scientist. Data science is not only about models or code; it also
+              depends on understanding messy information, checking assumptions,
+              explaining results, and building workflows that other people can
+              trust.
+            </p>
           </div>
         </div>
       </section>
@@ -477,100 +434,42 @@
           <div class="section-label"><span class="num">05</span> Conclusion</div>
           <div class="split">
             <h2 id="conclusion-title">
-              A tool is only useful<br />when someone can<br /><em
-                >keep using it.</em
-              >
+              What I am<br />taking <em>forward.</em>
             </h2>
             <div>
-              <p>
-                Across these projects, creating a working output was only part
-                of the task. Validation, clear review steps, staff feedback, and
-                documentation were also part of making the work usable.
+              <p class="lead">
+                The biggest lesson from this term was that technical work is
+                strongest when it is clear enough for other people to trust.
               </p>
               <p>
-                The term connected computing with academic-support services
-                through reusable data workflows, a staff-reporting prototype,
-                scheduling improvements, and structured research. The strongest
-                thread across the work was making information and processes
-                easier for others to use and maintain.
+                Across data workflows, Microsoft 365 tools, prompt engineering,
+                and AI research, I learned that building something is only part
+                of the job. The work also needs validation, documentation,
+                feedback, and a careful understanding of who will use it.
               </p>
-              <p class="draft-note">
-                Personal reflection draft: the takeaways above are drawn from
-                the work described and should be confirmed before submission.
+              <p>
+                I am grateful to the staff at McLaughlin Library for welcoming
+                me into this work, and especially to
+                <strong>Melanie Parlette-Stewart</strong> for her supervision,
+                guidance, and support throughout the term.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 7. ACKNOWLEDGMENTS (beige) -->
-      <section
-        id="acknowledgments"
-        class="band tone-sand"
-        data-tone="light"
-        aria-labelledby="thanks-title"
-      >
-        <div class="wrap">
-          <div class="section-label">
-            <span class="num">06</span> Acknowledgments
-          </div>
-          <div class="split">
-            <div>
-              <h2 id="thanks-title">
-                Thank you to the people<br /><em>behind the work.</em>
-              </h2>
-              <p>
-                These projects only worked because people shared their time,
-                their needs, and honest feedback.
-              </p>
-            </div>
-            <!-- To add names, put them at the start of each <dd>, e.g. "Jane Doe: For clear direction..." -->
-            <dl class="ack-list">
-              <div class="ack-item">
-                <dt>Library staff and academic-support teams</dt>
-                <dd>
-                  For explaining how their work actually runs, testing
-                  prototypes, and telling me what needed to change.
-                </dd>
-              </div>
-              <div class="ack-item">
-                <dt>My supervisor and project leads</dt>
-                <dd>
-                  For clear direction, steady feedback, and the trust to work on
-                  real projects with real users.
-                </dd>
-              </div>
-              <div class="ack-item">
-                <dt>Writing &amp; Learning Services</dt>
-                <dd>
-                  For the consultation records and the context to clean them
-                  responsibly.
-                </dd>
-              </div>
-              <div class="ack-item">
-                <dt>Supported Learning Group team</dt>
-                <dd>
-                  For testing the scheduling workbook and helping me strengthen
-                  its logic.
-                </dd>
-              </div>
-              <div class="ack-item">
-                <dt>Students in the focus groups</dt>
-                <dd>
-                  For sharing honest perspectives on AI and academic skills.
-                </dd>
-              </div>
-            </dl>
           </div>
         </div>
       </section>
     </main>
 
     <footer>
-      <div class="wrap">
-        <span class="footer-name">Nayyab Gul</span>
-        <span>McLaughlin Library · Summer 2026</span>
-        <a href="#top">Back to top ↑</a>
+      <div class="wrap footer-grid">
+        <div>
+          <span class="footer-name">Nayyab Gul</span>
+          <p>
+            Bachelor of Computing, Software Engineering<br />
+            Honours Co-op, University of Guelph
+          </p>
+        </div>
+        <span>Summer 2026 Co-op Work Term Report</span>
+        <button type="button" data-section="top">Back to top ↑</button>
       </div>
     </footer>
   </body>
